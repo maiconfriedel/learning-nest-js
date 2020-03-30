@@ -14,10 +14,20 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    if (!user.scope) {
+    if (!user?.scope) {
       return false;
     }
 
-    return user.scope === roles[0];
+    const userScopes = (user.scope as string).split('+');
+
+    let valid = false;
+
+    userScopes.map(scope => {
+      if (scope === roles[0]) {
+        valid = true;
+      }
+    });
+
+    return valid;
   }
 }

@@ -1,0 +1,14 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "mtg-deck-builder",
+  "password": "1234",
+  "database": "mtg-deck-builder",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true,
+  "migrations": ["dist/database/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/database/migrations"
+  }
+}
