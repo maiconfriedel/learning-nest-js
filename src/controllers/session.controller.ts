@@ -1,8 +1,9 @@
-import { Controller, Request, Post, Res } from '@nestjs/common';
+import { Controller, Request, Post, Res, Body } from '@nestjs/common';
 
 import { AuthService } from '../services/auth.service';
 import { UsersService } from '../services/users.service';
 import { Request as Req, Response } from 'express';
+import { User } from 'src/models/user.entity';
 
 @Controller()
 export class UsersController {
@@ -23,8 +24,8 @@ export class UsersController {
   }
 
   @Post('users')
-  async createUser(@Request() request: Req, @Res() res: Response) {
-    const response = await this.usersService.create(request.body);
+  async createUser(@Body() request: User, @Res() res: Response) {
+    const response = await this.usersService.create(request);
 
     if (!response.success) {
       return res.status(400).send(response);

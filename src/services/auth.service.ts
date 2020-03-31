@@ -39,7 +39,11 @@ export class AuthService {
         success: true,
       };
     } else {
-      return { errors: ['User not found or not valid!'], success: false };
+      return {
+        message: ['User not found or not valid!'],
+        success: false,
+        error: 'Bad Request',
+      };
     }
   }
 }

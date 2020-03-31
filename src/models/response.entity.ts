@@ -1,9 +1,9 @@
 export class Response<T> {
   success?: boolean;
 
-  errors?: string[];
+  message?: string[];
 
-  message?: string;
+  error?: string;
 
   response?: T;
 }

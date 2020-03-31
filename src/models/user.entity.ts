@@ -1,18 +1,36 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
+
+import { IsNotEmpty, IsEmail } from 'class-validator';
+
 import * as crypto from 'crypto';
+import { Deck } from './deck.entity';
 
 @Entity({ name: 'users' })
 export class User {
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  @IsNotEmpty()
   username: string;
 
   @Column()
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @Column()
+  @IsNotEmpty()
   password: string;
 
   @Column({
@@ -28,6 +46,12 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: string;
+
+  @OneToMany(
+    () => Deck,
+    deck => deck.user,
+  )
+  decks: Deck[];
 
   @BeforeInsert()
   hashPassword() {

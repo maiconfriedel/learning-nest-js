@@ -29,8 +29,9 @@ export class UsersService {
     if (!userInstance) {
       if (emailExists) {
         return {
-          errors: [`User with email ${user.email} already exists`],
+          message: [`User with email ${user.email} already exists`],
           success: false,
+          error: 'Bad Request',
         };
       }
 

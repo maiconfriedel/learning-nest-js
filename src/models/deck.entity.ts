@@ -3,15 +3,16 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
+  ManyToOne,
 } from 'typeorm';
 
-import { Deck } from './deck.entity';
+import { IsNotEmpty } from 'class-validator';
 
-import { Max, IsNotEmpty } from 'class-validator';
+import { Card } from './card.entity';
+import { User } from './user.entity';
 
-@Entity({ name: 'cards' })
-export class Card {
+@Entity({ name: 'decks' })
+export class Deck {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,18 +22,7 @@ export class Card {
 
   @Column()
   @IsNotEmpty()
-  manaCost: string;
-
-  @Column({ name: 'image_url', nullable: true })
-  imageUrl: string;
-
-  @Column({ name: 'art_crop_url', nullable: true })
-  artCropUrl: string;
-
-  @Column({ type: 'int' })
-  @Max(4)
-  @IsNotEmpty()
-  quantity: number;
+  colors: string;
 
   @Column({
     name: 'created_at',
@@ -49,9 +39,19 @@ export class Card {
   updatedAt: string;
 
   @ManyToMany(
-    () => Deck,
-    deck => deck.cards,
+    () => Card,
+    card => card.decks,
+    { cascade: true },
   )
-  @JoinTable()
-  decks: Deck[];
+  cards: Card[];
+
+  @ManyToOne(
+    () => User,
+    user => user.decks,
+    {
+      cascade: false,
+      nullable: false,
+    },
+  )
+  user: User;
 }

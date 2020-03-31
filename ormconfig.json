@@ -7,8 +7,5 @@
   "database": "mtg-deck-builder",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
-  "migrations": ["dist/database/migrations/*.js"],
-  "cli": {
-    "migrationsDir": "src/database/migrations"
-  }
+  "logging": true
 }
